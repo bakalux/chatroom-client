@@ -11,12 +11,12 @@ class Chat extends React.Component {
       usernames: []
     };
 
-    const { socket, username } = this.props;
+    const { socket } = this.props;
 
     this.sendMessage = e => {
       e.preventDefault();
       socket.emit("SEND_MESSAGE", {
-        author: this.state.username,
+        author: socket.username,
         message: this.state.message
       });
       this.setState({ message: "" });
@@ -26,8 +26,12 @@ class Chat extends React.Component {
       addMessage(data);
     });
 
-    socket.on("RECIEVE_USERNAMES", data => {
+    socket.on("UPDATE_USERNAMES", data => {
       this.setState({ usernames: data });
+    });
+
+    socket.on("RECIEVE_USERNAME", data => {
+      this.setState({ username: data });
     });
 
     const addMessage = data => {
@@ -49,7 +53,7 @@ class Chat extends React.Component {
                 <div className="messages">
                   {this.state.messages.map(message => {
                     return (
-                      <div>
+                      <div key={message.toString()}>
                         {message.author}: {message.message}
                       </div>
                     );
@@ -78,7 +82,7 @@ class Chat extends React.Component {
             <ul className="list-group">
               {this.state.usernames &&
                 this.state.usernames.map(username => {
-                  return <User username={username} />;
+                  return <User username={username} key={username.toString()} />;
                 })}
             </ul>
           </div>

@@ -5,7 +5,8 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ""
+      username: "",
+      toRedirect: false
     };
 
     const { socket, setUsername } = this.props;
@@ -15,12 +16,14 @@ class Register extends React.Component {
       socket.emit("SEND_USERNAME", {
         username: this.state.username
       });
-      setUsername(this.state);
-      return <Redirect exact to="/room" />;
+      socket.username = this.state.username;
+      this.setState({ toRedirect: true });
     };
   }
   render() {
-    return (
+    return this.state.toRedirect ? (
+      <Redirect to="/room" />
+    ) : (
       <form className="form-horizontal">
         <div className="col-md-6">
           <div className="form-group">

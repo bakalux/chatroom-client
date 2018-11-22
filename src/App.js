@@ -12,10 +12,8 @@ class App extends React.Component {
     };
 
     this.socket = socketIOClient("localhost:8989");
-    this.setUsername = username => {
-      this.setState({ username: username });
-    };
   }
+
   render() {
     return (
       <BrowserRouter>

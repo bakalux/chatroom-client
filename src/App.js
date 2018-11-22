@@ -14,8 +14,6 @@ class App extends React.Component {
     this.socket = socketIOClient("localhost:8989");
     this.setUsername = username => {
       this.setState({ username: username });
-      //ne robit sobaka
-      console.log(this.state.username);
     };
   }
   render() {
@@ -23,7 +21,13 @@ class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Redirect exact from="/" to="/register" />
-          <Route exact path="/room" component={Chat} />
+          <Route
+            exact
+            path="/room"
+            component={() => (
+              <Chat username={this.state.username} socket={this.socket} />
+            )}
+          />
           <Route
             exact
             path="/register"

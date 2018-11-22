@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 
 class Register extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class Register extends React.Component {
       socket.emit("SEND_USERNAME", {
         username: this.state.username
       });
-      setUsername();
+      setUsername(this.state);
+      return <Redirect exact to="/room" />;
     };
   }
   render() {
@@ -43,7 +45,7 @@ class Register extends React.Component {
           </div>
         </div>
         <div className="col-md-6">
-          <button onClick={this.sendUsername} className="btn btn-success">
+          <button onClick={this.sendUsername} className="btn">
             <i className="fa fa-user-plus" /> Register
           </button>
         </div>

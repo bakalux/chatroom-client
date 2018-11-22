@@ -1,26 +1,33 @@
 import React from "react";
+import User from "./User";
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: "",
       message: "",
-      messages: []
+      messages: [],
+      usernames: []
     };
+
+    const { socket, username } = this.props;
 
     this.sendMessage = e => {
       e.preventDefault();
-      this.socket.emit("SEND_MESSAGE", {
+      socket.emit("SEND_MESSAGE", {
         author: this.state.username,
         message: this.state.message
       });
       this.setState({ message: "" });
     };
 
-    this.socket.on("RECIEVE_MESSAGE", data => {
+    socket.on("RECIEVE_MESSAGE", data => {
       addMessage(data);
+    });
+
+    socket.on("RECIEVE_USERNAMES", data => {
+      this.setState({ usernames: data });
     });
 
     const addMessage = data => {
@@ -29,6 +36,7 @@ class Chat extends React.Component {
       console.log(this.state.messages);
     };
   }
+
   render() {
     return (
       <div className="container">
@@ -51,16 +59,6 @@ class Chat extends React.Component {
               <div className="card-footer">
                 <input
                   type="text"
-                  placeholder="Username"
-                  className="form-control"
-                  onChange={e => {
-                    this.setState({ username: e.target.value });
-                  }}
-                  value={this.state.username}
-                />
-                <br />
-                <input
-                  type="text"
                   placeholder="Message"
                   className="form-control"
                   onChange={e => {
@@ -77,6 +75,12 @@ class Chat extends React.Component {
                 </button>
               </div>
             </div>
+            <ul className="list-group">
+              {this.state.usernames &&
+                this.state.usernames.map(username => {
+                  return <User username={username} />;
+                })}
+            </ul>
           </div>
         </div>
       </div>

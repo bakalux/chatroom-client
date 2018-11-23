@@ -53,8 +53,8 @@ class Chat extends React.Component {
                 <div className="messages">
                   {this.state.messages.map(message => {
                     return (
-                      <div key={message.toString()}>
-                        {message.author}: {message.message}
+                      <div key={message.id}>
+                        {message.time} {message.author}: {message.message}
                       </div>
                     );
                   })}

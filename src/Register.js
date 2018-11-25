@@ -13,11 +13,13 @@ class Register extends React.Component {
 
     this.sendUsername = e => {
       e.preventDefault();
-      socket.emit("SEND_USERNAME", {
-        username: this.state.username
-      });
-      socket.username = this.state.username;
-      this.setState({ toRedirect: true });
+      if (this.state.username !== "") {
+        socket.emit("SEND_USERNAME", {
+          username: this.state.username
+        });
+        socket.username = this.state.username;
+        this.setState({ toRedirect: true });
+      }
     };
   }
   render() {
@@ -29,6 +31,7 @@ class Register extends React.Component {
           <input
             type="text"
             name="name"
+            required
             id="name"
             placeholder="John"
             className="input-name"

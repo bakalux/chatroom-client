@@ -15,11 +15,13 @@ class Chat extends React.Component {
 
     this.sendMessage = e => {
       e.preventDefault();
-      socket.emit("SEND_MESSAGE", {
-        author: socket.username,
-        message: this.state.message
-      });
-      this.setState({ message: "" });
+      if (this.state.message !== "") {
+        socket.emit("SEND_MESSAGE", {
+          author: socket.username,
+          message: this.state.message
+        });
+        this.setState({ message: "" });
+      }
     };
 
     socket.on("RECIEVE_MESSAGE", data => {
@@ -66,6 +68,7 @@ class Chat extends React.Component {
             <input
               className="input-message"
               type="text"
+              autoFocus
               placeholder="Message"
               onChange={e => {
                 this.setState({ message: e.target.value });

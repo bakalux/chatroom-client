@@ -9,7 +9,7 @@ class Register extends React.Component {
       toRedirect: false
     };
 
-    const { socket, setUsername } = this.props;
+    const { socket } = this.props;
 
     this.sendUsername = e => {
       e.preventDefault();
@@ -24,7 +24,7 @@ class Register extends React.Component {
   }
   render() {
     return this.state.toRedirect ? (
-      <Redirect to="/room" />
+      <Redirect to="/room/lobby" />
     ) : (
       <div className="register-container">
         <form className="register-form">

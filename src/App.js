@@ -8,9 +8,24 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      usernames: [],
       username: "",
-      messages: []
+      chatrooms: [
+        {
+          name: "lobby",
+          usernames: [],
+          messages: []
+        },
+        {
+          name: "pomoika",
+          usernames: [],
+          messages: []
+        },
+        {
+          name: "doka",
+          usernames: [],
+          messages: []
+        }
+      ]
     };
 
     this.socket = socketIOClient("localhost:8989");
@@ -29,7 +44,8 @@ class App extends React.Component {
 
     const addMessage = data => {
       console.log(data);
-      this.setState({ messages: [...this.state.messages, data] });
+
+      this.setState({ chatrooms:  });
       console.log(this.state.messages);
     };
   }
@@ -41,14 +57,20 @@ class App extends React.Component {
           <Redirect exact from="/" to="/register" />
           <Route
             exact
-            path="/room"
+            path="/room/lobby"
             component={() => (
-              <Chat
-                username={this.state.username}
-                socket={this.socket}
-                messages={this.state.messages}
-                usernames={this.state.usernames}
-              />
+              <div>
+                {this.state.chatrooms &&
+                  this.state.chatrooms.map(chatroom => {
+                    return <Link to={`/room/${chatroom.name}`} />;
+                  })}
+                <Chat
+                  username={this.state.username}
+                  socket={this.socket}
+                  messages={this.state.chatrooms[0].messages}
+                  usernames={this.state.chatrooms[0].usernames}
+                />
+              </div>
             )}
           />
           <Route

@@ -24,35 +24,23 @@ class Register extends React.Component {
     return this.state.toRedirect ? (
       <Redirect to="/room" />
     ) : (
-      <form className="form-horizontal">
-        <div className="col-md-6">
-          <div className="form-group">
-            <div className="input-group mb-2 mr-sm-2 mb-sm-0">
-              <div className="input-group-addon" style={{ width: 2.6 + "rem" }}>
-                <i className="fa fa-user" />
-              </div>
-              <input
-                type="text"
-                name="name"
-                className="form-control"
-                id="name"
-                placeholder="John"
-                required
-                autoFocus
-                onChange={e => {
-                  this.setState({ username: e.target.value });
-                }}
-                value={this.state.username}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <button onClick={this.sendUsername} className="btn">
-            <i className="fa fa-user-plus" /> Register
-          </button>
-        </div>
-      </form>
+      <div className="register-container">
+        <form className="register-form">
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="John"
+            className="input-name"
+            autoFocus
+            onChange={e => {
+              this.setState({ username: e.target.value });
+            }}
+            value={this.state.username}
+          />
+          <button onClick={this.sendUsername}>Register</button>
+        </form>
+      </div>
     );
   }
 }

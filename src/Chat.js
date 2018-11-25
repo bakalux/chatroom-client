@@ -43,49 +43,37 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-4">
-            <div className="card">
-              <div className="card-body">
-                <div className="card-title">Global Chat</div>
-                <hr />
-                <div className="messages">
-                  {this.state.messages.map(message => {
-                    return (
-                      <div key={message.id}>
-                        {message.time} {message.author}: {message.message}
-                      </div>
-                    );
-                  })}
+      <div className="chatroom-container">
+        <ul className="user-list">
+          {this.state.usernames &&
+            this.state.usernames.map(username => {
+              return <User username={username} key={username.toString()} />;
+            })}
+        </ul>
+        <div className="chat">
+          <div className="chat-messages">
+            {this.state.messages.map(message => {
+              return (
+                <div key={message.id}>
+                  <span class="time">{message.time}</span> {message.author}:{" "}
+                  {message.message}
                 </div>
-              </div>
-              <div className="card-footer">
-                <input
-                  type="text"
-                  placeholder="Message"
-                  className="form-control"
-                  onChange={e => {
-                    this.setState({ message: e.target.value });
-                  }}
-                  value={this.state.message}
-                />
-                <br />
-                <button
-                  onClick={this.sendMessage}
-                  className="btn btn-primary form-control"
-                >
-                  Send
-                </button>
-              </div>
-            </div>
-            <ul className="list-group">
-              {this.state.usernames &&
-                this.state.usernames.map(username => {
-                  return <User username={username} key={username.toString()} />;
-                })}
-            </ul>
+              );
+            })}
           </div>
+
+          <form onSubmit={this.sendMessage}>
+            <input
+              className="input-message"
+              type="text"
+              placeholder="Message"
+              onChange={e => {
+                this.setState({ message: e.target.value });
+              }}
+              value={this.state.message}
+            />
+            <button>Send</button>
+          </form>
         </div>
       </div>
     );

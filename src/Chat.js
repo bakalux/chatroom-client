@@ -6,9 +6,7 @@ class Chat extends React.Component {
     super(props);
 
     this.state = {
-      message: "",
-      messages: [],
-      usernames: []
+      message: ""
     };
 
     const { socket } = this.props;
@@ -23,42 +21,25 @@ class Chat extends React.Component {
         this.setState({ message: "" });
       }
     };
-
-    socket.on("RECIEVE_MESSAGE", data => {
-      addMessage(data);
-    });
-
-    socket.on("UPDATE_USERNAMES", data => {
-      this.setState({ usernames: data });
-    });
-
-    socket.on("RECIEVE_USERNAME", data => {
-      this.setState({ username: data });
-    });
-
-    const addMessage = data => {
-      console.log(data);
-      this.setState({ messages: [...this.state.messages, data] });
-      console.log(this.state.messages);
-    };
   }
 
   render() {
+    const { usernames, messages } = this.props;
     return (
       <div className="chatroom-container">
         <ul className="user-list">
-          {this.state.usernames &&
-            this.state.usernames.map(username => {
+          {usernames &&
+            usernames.map(username => {
               return <User username={username} key={username.toString()} />;
             })}
         </ul>
         <div className="chat">
           <div className="chat-messages">
-            {this.state.messages.map(message => {
+            {messages.map(message => {
               return (
                 <div key={message.id}>
-                  <span class="time">{message.time}</span> {message.author}:{" "}
-                  <span class="chat-message">{message.message}</span>
+                  <span className="time">{message.time}</span> {message.author}:{" "}
+                  <span className="chat-message">{message.message}</span>
                 </div>
               );
             })}

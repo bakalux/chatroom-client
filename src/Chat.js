@@ -56,7 +56,7 @@ class Chat extends React.Component {
               return (
                 <div key={message.id}>
                   <span class="time">{message.time}</span> {message.author}:{" "}
-                  {message.message}
+                  <span class="chat-message">{message.message}</span>
                 </div>
               );
             })}

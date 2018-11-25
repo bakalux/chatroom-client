@@ -70,7 +70,7 @@ class App extends React.Component {
               <div>
                 {this.state.chatrooms &&
                   Object.keys(this.state.chatrooms).map(chatroom => {
-                    return <Link to={`/room/${chatroom.name}`} />;
+                    return <Link to={`/room/${chatroom}`} />;
                   })}
                 <Chat
                   username={this.state.username}

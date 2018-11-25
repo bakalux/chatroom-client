@@ -9,23 +9,21 @@ class App extends React.Component {
     super(props);
     this.state = {
       username: "",
-      chatrooms: [
-        {
-          name: "lobby",
+
+      chatrooms: {
+        lobby: {
           usernames: [],
           messages: []
         },
-        {
-          name: "pomoika",
+        pomoika: {
           usernames: [],
           messages: []
         },
-        {
-          name: "doka",
+        doka: {
           usernames: [],
           messages: []
         }
-      ]
+      }
     };
 
     this.socket = socketIOClient("localhost:8989");
@@ -44,13 +42,23 @@ class App extends React.Component {
 
     const addMessage = data => {
       console.log(data);
+      const room = "lobby";
 
-      this.setState({ chatrooms:  });
-      console.log(this.state.messages);
+      this.setState({
+        chatrooms: {
+          [room]: {
+            messages: [data, ...this.state.chatrooms[room].messages],
+            ...this.state.chatrooms[room]
+          },
+          ...this.state.chatrooms
+        }
+      });
+      console.log(this.state.chatrooms[room].messages);
     };
   }
 
   render() {
+    console.log(this.state.chatrooms);
     return (
       <BrowserRouter>
         <Switch>
@@ -61,14 +69,14 @@ class App extends React.Component {
             component={() => (
               <div>
                 {this.state.chatrooms &&
-                  this.state.chatrooms.map(chatroom => {
+                  Object.keys(this.state.chatrooms).map(chatroom => {
                     return <Link to={`/room/${chatroom.name}`} />;
                   })}
                 <Chat
                   username={this.state.username}
                   socket={this.socket}
-                  messages={this.state.chatrooms[0].messages}
-                  usernames={this.state.chatrooms[0].usernames}
+                  messages={this.state.chatrooms["lobby"].messages}
+                  usernames={this.state.chatrooms["lobby"].usernames}
                 />
               </div>
             )}

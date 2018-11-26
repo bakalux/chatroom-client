@@ -89,19 +89,30 @@ class App extends React.Component {
           <Route
             exact
             path="/room/:name"
-            render={props => (
-              <ChatroomContainer
-                {...props}
-                socket={this.socket}
-                username={this.state.username}
-                chatrooms={this.state.chatrooms}
-              />
-            )}
+            render={props =>
+              this.state.username ? (
+                <ChatroomContainer
+                  {...props}
+                  socket={this.socket}
+                  username={this.state.username}
+                  chatrooms={this.state.chatrooms}
+                />
+              ) : (
+                <Redirect to="/register" />
+              )
+            }
           />
           <Route
             exact
             path="/register"
-            component={() => <Register socket={this.socket} />}
+            component={() => (
+              <Register
+                socket={this.socket}
+                setUsername={username => {
+                  this.setState({ username });
+                }}
+              />
+            )}
           />
         </Switch>
       </BrowserRouter>

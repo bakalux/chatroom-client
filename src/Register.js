@@ -1,12 +1,11 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      toRedirect: false
+      username: ""
     };
 
     const { socket } = this.props;
@@ -22,14 +21,14 @@ class Register extends React.Component {
           name: "lobby"
         });
         socket.username = this.state.username;
-        this.setState({ toRedirect: true });
+        this.props.setUsername(this.state.username);
+        console.log(this.props.history);
+        this.props.history.push("/room/lobby");
       }
     };
   }
   render() {
-    return this.state.toRedirect ? (
-      <Redirect to="/room/lobby" />
-    ) : (
+    return (
       <div className="register-container">
         <form className="register-form">
           <input
@@ -52,4 +51,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default withRouter(Register);

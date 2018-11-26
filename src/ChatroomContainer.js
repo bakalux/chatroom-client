@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default props => {
   const { socket, username, chatrooms } = props;
-  console.log(props);
+
   return (
     <div>
       {chatrooms &&

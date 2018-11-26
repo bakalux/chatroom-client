@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Redirect, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Register from "./Register";
 import socketIOClient from "socket.io-client";
 import ChatroomContainer from "./ChatroomContainer";
@@ -93,9 +93,7 @@ class App extends React.Component {
           <Route
             exact
             path="/register"
-            component={() => (
-              <Register setUsername={this.setUsername} socket={this.socket} />
-            )}
+            component={() => <Register socket={this.socket} />}
           />
         </Switch>
       </BrowserRouter>

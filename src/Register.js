@@ -15,7 +15,11 @@ class Register extends React.Component {
       e.preventDefault();
       if (this.state.username !== "") {
         socket.emit("SEND_USERNAME", {
-          username: this.state.username
+          user: {
+            username: this.state.username,
+            id: socket.id
+          },
+          name: "lobby"
         });
         socket.username = this.state.username;
         this.setState({ toRedirect: true });

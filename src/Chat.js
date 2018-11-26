@@ -24,6 +24,21 @@ class Chat extends React.Component {
     };
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.name !== this.props.name) {
+      console.log("room changed to ", newProps.name);
+      const userAndRooms = {
+        user: {
+          id: this.props.socket.id,
+          username: this.props.socket.username
+        },
+        oldRoom: this.props.name,
+        newRoom: newProps.name
+      };
+      this.props.socket.emit("CHANGE_ROOM", userAndRooms);
+    }
+  }
+
   render() {
     const { usernames, messages } = this.props;
     return (

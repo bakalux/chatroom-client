@@ -9,6 +9,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       username: "",
+      isRegistered: false,
 
       chatrooms: {
         lobby: {
@@ -33,13 +34,20 @@ class App extends React.Component {
     });
 
     this.socket.on("UPDATE_USERNAMES", data => {
-      const room = "lobby";
+      console.log("update_usernames data is ", data);
+      const room = data.name;
+      let usernames;
+      if (data.users !== []) {
+        usernames = data.users.map(user => {
+          return user.username;
+        });
+      } else usernames = [];
       this.setState({
         chatrooms: {
           ...this.state.chatrooms,
           [room]: {
             ...this.state.chatrooms[room],
-            usernames: data
+            usernames
           }
         }
       });

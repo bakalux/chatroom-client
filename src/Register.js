@@ -45,7 +45,9 @@ class Register extends React.Component {
             }}
             value={this.state.username}
           />
-          <button onClick={this.sendUsername}>Register</button>
+          <button onClick={this.sendUsername} className="register-button">
+            Register
+          </button>
         </form>
       </div>
     );

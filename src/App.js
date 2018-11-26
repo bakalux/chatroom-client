@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch, Link } from "react-router-dom";
-import Chat from "./Chat";
 import Register from "./Register";
 import socketIOClient from "socket.io-client";
+import ChatroomContainer from "./ChatroomContainer";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,7 +33,16 @@ class App extends React.Component {
     });
 
     this.socket.on("UPDATE_USERNAMES", data => {
-      this.setState({ usernames: data });
+      const room = "lobby";
+      this.setState({
+        chatrooms: {
+          ...this.state.chatrooms,
+          [room]: {
+            ...this.state.chatrooms[room],
+            usernames: data
+          }
+        }
+      });
     });
 
     this.socket.on("RECIEVE_USERNAME", data => {
@@ -41,16 +50,22 @@ class App extends React.Component {
     });
 
     const addMessage = data => {
-      console.log(data);
-      const room = "lobby";
+      console.log("data name", data.name);
+      const room = data.name;
+
+      const message = {
+        author: data.author,
+        message: data.message,
+        time: data.time
+      };
 
       this.setState({
         chatrooms: {
+          ...this.state.chatrooms,
           [room]: {
-            messages: [data, ...this.state.chatrooms[room].messages],
-            ...this.state.chatrooms[room]
-          },
-          ...this.state.chatrooms
+            ...this.state.chatrooms[room],
+            messages: [...this.state.chatrooms[room].messages, message]
+          }
         }
       });
       console.log(this.state.chatrooms[room].messages);
@@ -65,20 +80,14 @@ class App extends React.Component {
           <Redirect exact from="/" to="/register" />
           <Route
             exact
-            path="/room/lobby"
-            component={() => (
-              <div>
-                {this.state.chatrooms &&
-                  Object.keys(this.state.chatrooms).map(chatroom => {
-                    return <Link to={`/room/${chatroom}`} />;
-                  })}
-                <Chat
-                  username={this.state.username}
-                  socket={this.socket}
-                  messages={this.state.chatrooms["lobby"].messages}
-                  usernames={this.state.chatrooms["lobby"].usernames}
-                />
-              </div>
+            path="/room/:name"
+            render={props => (
+              <ChatroomContainer
+                {...props}
+                socket={this.socket}
+                username={this.state.username}
+                chatrooms={this.state.chatrooms}
+              />
             )}
           />
           <Route

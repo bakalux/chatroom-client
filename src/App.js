@@ -33,6 +33,7 @@ class App extends React.Component {
       addMessage(data);
     });
 
+    /**Setting updated users to the state */
     this.socket.on("UPDATE_USERNAMES", data => {
       console.log("update_usernames data is ", data);
       const room = data.name;
@@ -57,6 +58,7 @@ class App extends React.Component {
       this.setState({ username: data });
     });
 
+    /**Adding message to the required room */
     const addMessage = data => {
       console.log("data name", data.name);
       const room = data.name;
@@ -81,7 +83,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.chatrooms);
     return (
       <BrowserRouter>
         <Switch>

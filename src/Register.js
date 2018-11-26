@@ -10,6 +10,7 @@ class Register extends React.Component {
 
     const { socket } = this.props;
 
+    /**Sending username to the server and redirecting to lobby */
     this.sendUsername = e => {
       e.preventDefault();
       if (this.state.username !== "") {

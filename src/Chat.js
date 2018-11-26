@@ -24,6 +24,9 @@ class Chat extends React.Component {
     };
   }
 
+  /**Checking props for changing room
+   * and emitting "CHANGE_ROOM" with user, old and new rooms data
+   */
   componentWillReceiveProps(newProps) {
     if (newProps.name !== this.props.name) {
       console.log("room changed to ", newProps.name);

@@ -60,13 +60,14 @@ class App extends React.Component {
 
     /**Adding message to the required room */
     const addMessage = data => {
-      console.log("data name", data.name);
+      console.log("message", data.id);
       const room = data.name;
 
       const message = {
         author: data.author,
         message: data.message,
-        time: data.time
+        time: data.time,
+        id: data.id
       };
 
       this.setState({

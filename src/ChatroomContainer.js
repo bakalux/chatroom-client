@@ -1,20 +1,27 @@
 import React from "react";
 import Chat from "./Chat";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default props => {
   const { socket, username, chatrooms } = props;
 
   return (
     <div>
-      {chatrooms &&
-        Object.keys(chatrooms).map(chatroom => {
-          return (
-            <Link key={chatroom} to={`/room/${chatroom}`}>
-              {chatroom}
-            </Link>
-          );
-        })}
+      <div className="room-links">
+        {chatrooms &&
+          Object.keys(chatrooms).map(chatroom => {
+            return (
+              <NavLink
+                key={chatroom}
+                to={`/room/${chatroom}`}
+                className="styled-link"
+                activeClassName="selected"
+              >
+                {chatroom}
+              </NavLink>
+            );
+          })}
+      </div>
       <Chat
         username={username}
         socket={socket}

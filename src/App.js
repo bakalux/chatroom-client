@@ -15,11 +15,11 @@ class App extends React.Component {
           usernames: [],
           messages: []
         },
-        pomoika: {
+        series: {
           usernames: [],
           messages: []
         },
-        doka: {
+        games: {
           usernames: [],
           messages: []
         }
